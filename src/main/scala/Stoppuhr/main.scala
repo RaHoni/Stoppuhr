@@ -2,9 +2,7 @@ package Stoppuhr
 
 import java.time.Instant
 import java.util.concurrent.TimeUnit.{MILLISECONDS, SECONDS}
-
 import Stoppuhr.zustaende._
-
 import scala.concurrent.duration.Duration
 
 
@@ -24,6 +22,7 @@ object main {
     while (true) {
     showTime()}
 
+
   }
 
   def showTime(): Unit = {
@@ -36,7 +35,7 @@ object main {
     ui.time.text
   }
 
-  def formatDuration(duration: Duration) = {String.format("%02d:%02d:%02d",duration.toMinutes.toInt,(duration.toSeconds%60).toInt,duration.toMillis%1000)}
+  def formatDuration(duration: Duration): String = {String.format("%02d:%02d:%02d",duration.toMinutes.toInt,(duration.toSeconds%60).toInt,duration.toMillis%1000)}
 
   def millisecondsNow: Long = Instant.now().toEpochMilli
 
@@ -44,35 +43,29 @@ object main {
 
   def handleS(): Unit = {
     zustand match  {
-      case Start => {
+      case Start =>
         start =  millisecondsNow
         zustand = Running
-      }
-      case Running => {
+      case Running =>
         alteDauer = duration
         zustand = Pause
-      }
-      case Pause => {
+      case Pause =>
 
         start = millisecondsNow
         zustand = Running
-      }
     }
-    println(zustand)
   }
 
   def handleR(): Unit = {
     if(!showRound){
       zustand match {
-        case Pause => {
+        case Pause =>
           alteDauer = Duration(0,SECONDS)
           zustand = Start
-        }
         case Start =>
-        case Running => {
+        case Running =>
           rundenDauer = duration
           showRound = true
-        }
       }
     } else {
       zustand match {
@@ -81,6 +74,5 @@ object main {
         case Running => showRound = false
       }
     }
-    println(zustand)
   }
 }

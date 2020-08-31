@@ -1,6 +1,6 @@
 name := "Stoppuhr"
 
-version := "0.1"
+version := "1"
 
 scalaVersion := "2.13.3"
 
